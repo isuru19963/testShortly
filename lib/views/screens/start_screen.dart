@@ -36,13 +36,14 @@ class StartPageState extends State<StartPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: size.height * 0.05,
+                    height: size.height * 0.02,
                   ),
                   SvgPicture.asset(
                     'assets/Images/logo.svg',
                   ),
                   SvgPicture.asset(
                     'assets/Images/illustration.svg',
+
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment
@@ -67,7 +68,7 @@ class StartPageState extends State<StartPage> {
                       Text(
                         "Build your brand's recognition and \n get detailed insight on how your \n links are performing",
                         style: TextStyle(
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                             fontSize: 20,
                             fontFamily: 'Poppins'),
                         textAlign: TextAlign.center,
@@ -75,7 +76,7 @@ class StartPageState extends State<StartPage> {
                     ],
                   ),
                   SizedBox(
-                    height: size.height * 0.05,
+                    height: size.height * 0.02,
                   ),
                   Material(
                     elevation: 0,
@@ -87,15 +88,15 @@ class StartPageState extends State<StartPage> {
                           context,
                           MaterialPageRoute<dynamic>(
                             builder: (BuildContext context) =>
-                                IntroPage(),
+                                const OnboardingScreen(),
                           ),
                         );
                       },
                       minWidth: 300.0,
                       height: 60.0,
                       child: const Text(
-                        "Start",
-                        style: TextStyle(color: Colors.white, fontSize: 18.0),
+                        "START",
+                        style: TextStyle(color: Colors.white, fontSize: 24.0,fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
