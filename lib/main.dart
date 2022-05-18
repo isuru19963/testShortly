@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:test_project/views/screens/start_screen.dart';
 
 void main() {
@@ -24,8 +25,10 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+
       ),
       home: StartPage(),
+      builder: EasyLoading.init(),
     );
   }
 }

@@ -7,11 +7,8 @@ abstract class ShortenlinksEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetShortenLinkList extends ShortenlinksEvent {
+class GetShortenLinkList extends ShortenlinksEvent {}
 
-}
-class GetShortenLinkData extends ShortenlinksEvent {
-  String? url;
+class GetShortenLinkListMore extends ShortenlinksEvent {}
 
-  GetShortenLinkData({this.url});
-}
+class GetShortenLinkListRemove extends ShortenlinksEvent {}

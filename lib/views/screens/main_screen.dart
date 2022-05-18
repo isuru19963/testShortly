@@ -1,11 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_project/models/shortenlink_model.dart';
+import 'package:test_project/views/screens/historly_links.dart';
 import '../../Repositary/shorten_api_repositary.dart';
 import 'intro_screen.dart';
 
@@ -17,6 +19,14 @@ class MainPage extends StatefulWidget {
 
 class StartPageState extends State<MainPage> {
   late TextEditingController shortenLink = TextEditingController();
+  bool _validate = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    EasyLoading.dismiss();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -111,6 +121,7 @@ class StartPageState extends State<MainPage> {
                                     fontSize: 22,
                                   ),
                                   hintText: "Shorten a link here ...",
+                                  errorText: _validate ? 'Please add a link here' : null,
                                   fillColor: Colors.white70),
                             ),
                             SizedBox(
@@ -122,7 +133,13 @@ class StartPageState extends State<MainPage> {
                               color: Color(0xff2ACFCF),
                               child: MaterialButton(
                                 onPressed: () async {
-                                  await functionShorten();
+                                  setState(() {
+                                    shortenLink.text.isEmpty ? _validate = true : _validate = false;
+                                  });
+                                  if(!_validate){
+                                   await functionShorten();
+                                  }
+
                                   // Navigator.push<dynamic>(
                                   //   context,
                                   //   MaterialPageRoute<dynamic>(
@@ -160,48 +177,59 @@ class StartPageState extends State<MainPage> {
   }
 
   functionShorten() async {
+    EasyLoading.show(status: 'Please Wait');
     String? link;
     var id;
     final _provider = ApiRepository();
     final Future<ShortenLinkModel> dataList =
         _provider.fetchDataList(shortenLink.text);
-    setState(() {
 
-    dataList.then((value) => {
-    print(value)
-
-
-
-
+    await dataList.then((value) => {
+          print('bgbgb' + value.shortenUrl.toString()),
+          setState(() {
+            link = value.shortenUrl;
+            id = value.id;
+          })
         });
-    print(link);
-    });
+    print('bgbgb' + link!);
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final String? linkStrings = await prefs.getString('shortenList');
     print(linkStrings);
+    Timer(Duration(seconds: 3), () async {
+      // <-- Delay here
+      if (linkStrings == null) {
+        final String encodedData = ShortenLinkModel.encode([
+          ShortenLinkModel(id: id, url: shortenLink.text, shortenUrl: link)
+        ]);
 
-    if (linkStrings == null) {
-      final String encodedData = json.encode(
-          [ShortenLinkModel(id: id, url: shortenLink.text, shortenUrl: link)]);
+        await prefs.setString('shortenList', encodedData);
+      } else {
+        final List<ShortenLinkModel> links;
+        links = ShortenLinkModel.decode(linkStrings);
 
-      await prefs.setString('shortenList', encodedData);
-    } else {
-      await prefs.clear();
-      final List<ShortenLinkModel> links;
-      links = ShortenLinkModel.decode(linkStrings);
+        // Encode and store data in SharedPreferences
+        links.add(
+            ShortenLinkModel(id: id, url: shortenLink.text, shortenUrl: link));
+        final String encodedData = json.encode(
+          links
+              .map<Map<String, dynamic>>((link) => ShortenLinkModel.toMap(link))
+              .toList(),
+        );
 
-      // Encode and store data in SharedPreferences
-      links.add(
-          ShortenLinkModel(id: id, url: shortenLink.text, shortenUrl: link));
-      final String encodedData = json.encode(
-        links
-            .map<Map<String, dynamic>>((link) => ShortenLinkModel.toMap(link))
-            .toList(),
-      );
+        await prefs.setString('shortenList', encodedData);
+        EasyLoading.dismiss();
+        Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) =>
+                LinkHistory(),
+          ),
+        );
 
-      await prefs.setString('shortenList', encodedData);
-    }
+      }
+    });
 
     // Fetch and decode data
     final String? shortenList = await prefs.getString('shortenList');
