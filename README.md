@@ -5,6 +5,7 @@ A new Flutter project.
 ## Getting Started
 this project use Flutter and bloc pattern to short the URL, we are using shared prefernces to save the list using encode string,
 
+```bash
 ├── lib
 |   ├── bloc
 │   │   ├── shortenlinks_bloc.dart
@@ -25,3 +26,5 @@ this project use Flutter and bloc pattern to short the URL, we are using shared 
 │   └── main.dart
 ├── pubspec.lock
 ├── pubspec.yaml
+
+```
