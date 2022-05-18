@@ -35,8 +35,27 @@ class StartPageState extends State<MainPage> {
           leadingWidth: 0,
           backgroundColor: Colors.transparent,
           elevation: 0,
+
           leading: Container(),
-          toolbarHeight: 0,
+          actions: [
+
+
+
+
+            SizedBox(
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.push<dynamic>(
+                      context,
+                      MaterialPageRoute<dynamic>(
+                        builder: (BuildContext context) =>
+                            LinkHistory(),
+                      ),
+                    );
+                  },
+                  icon: Image.asset('assets/Images/go_icon.png',height: 100,)),
+            )
+          ],
         ),
         body: Container(
           color: Colors.white,

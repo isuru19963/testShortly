@@ -24,7 +24,4 @@ class DataLoaded extends ShortenlinksState {
 
   DataLoaded(this.myList);
 }
-class CovidError extends ShortenlinksState {
-  final String? message;
-  const CovidError(this.message);
-}
+

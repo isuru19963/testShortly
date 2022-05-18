@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../bloc/shortenlinks_bloc.dart';
+import '../../models/shortenlink_model.dart';
 
 class LinkHistory extends StatefulWidget {
   @override
@@ -65,7 +69,7 @@ class _LazyLoadingWithBlocState extends State<LinkHistory> {
                 //   title: Text(state.myList[i].shortenUrl),
                 // );
                 return Container(
-                  height: 150,
+                  height: 170,
                   child: Card(
                     semanticContainer: true,
                     shape: RoundedRectangleBorder(
@@ -94,9 +98,17 @@ class _LazyLoadingWithBlocState extends State<LinkHistory> {
                                     text: state.myList[i].url),
                               ),
                             ),
-                            SvgPicture.asset(
-                              'assets/Images/del.svg',
+                            SizedBox(
+                              child: IconButton(
+                                  onPressed: () async{
+                                  await remove(state.myList[i].id);
+                                  (context as Element).reassemble();
+                                  },
+                                  icon:  SvgPicture.asset(
+                                    'assets/Images/del.svg',
+                                  ),),
                             ),
+
                             SizedBox(
                               width: 10,
                             ),
@@ -192,4 +204,31 @@ class _LazyLoadingWithBlocState extends State<LinkHistory> {
       ),
     );
   }
+
+  remove(id) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? shortenList = prefs.getString('shortenList');
+
+  final List<ShortenLinkModel> linkHistory = ShortenLinkModel.decode(shortenList!);
+
+
+  // loadMoreCount = initLoadCount;
+  linkHistory.removeWhere((item) => item.id == id);
+
+
+  // Encode and store data in SharedPreferences
+
+  final String encodedData = json.encode(
+    linkHistory
+        .map<Map<String, dynamic>>((link) => ShortenLinkModel.toMap(link))
+        .toList(),
+  );
+print('done');
+  await prefs.setString('shortenList', encodedData);
+  setState(() {
+
+  });
+  (context as Element).reassemble();
+  dataBloc.add(GetShortenLinkList());
+}
 }

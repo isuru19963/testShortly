@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
 
       ),
       home: StartPage(),
+      debugShowCheckedModeBanner: false,
       builder: EasyLoading.init(),
     );
   }

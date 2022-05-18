@@ -11,4 +11,6 @@ class GetShortenLinkList extends ShortenlinksEvent {}
 
 class GetShortenLinkListMore extends ShortenlinksEvent {}
 
-class GetShortenLinkListRemove extends ShortenlinksEvent {}
+class GetShortenLinkListRemove extends ShortenlinksEvent {
+
+}
