@@ -27,6 +27,7 @@ class StartPageState extends State<MainPage> {
     super.dispose();
     EasyLoading.dismiss();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -35,25 +36,22 @@ class StartPageState extends State<MainPage> {
           leadingWidth: 0,
           backgroundColor: Colors.transparent,
           elevation: 0,
-
           leading: Container(),
           actions: [
-
-
-
-
             SizedBox(
               child: IconButton(
                   onPressed: () {
                     Navigator.push<dynamic>(
                       context,
                       MaterialPageRoute<dynamic>(
-                        builder: (BuildContext context) =>
-                            LinkHistory(),
+                        builder: (BuildContext context) => LinkHistory(),
                       ),
                     );
                   },
-                  icon: Image.asset('assets/Images/go_icon.png',height: 100,)),
+                  icon: Image.asset(
+                    'assets/Images/go_icon.png',
+                    height: 100,
+                  )),
             )
           ],
         ),
@@ -140,7 +138,9 @@ class StartPageState extends State<MainPage> {
                                     fontSize: 22,
                                   ),
                                   hintText: "Shorten a link here ...",
-                                  errorText: _validate ? 'Please add a link here' : null,
+                                  errorText: _validate
+                                      ? 'Please add a link here'
+                                      : null,
                                   fillColor: Colors.white70),
                             ),
                             SizedBox(
@@ -153,19 +153,15 @@ class StartPageState extends State<MainPage> {
                               child: MaterialButton(
                                 onPressed: () async {
                                   setState(() {
-                                    shortenLink.text.isEmpty ? _validate = true : _validate = false;
+                                    shortenLink.text.isEmpty
+                                        ? _validate = true
+                                        : _validate = false;
                                   });
-                                  if(!_validate){
-                                   await functionShorten();
+                                  if (!_validate) {
+                                    await functionShorten();
                                   }
 
-                                  // Navigator.push<dynamic>(
-                                  //   context,
-                                  //   MaterialPageRoute<dynamic>(
-                                  //     builder: (BuildContext context) =>
-                                  //         const OnboardingScreen(),
-                                  //   ),
-                                  // );
+
                                 },
                                 height: 60.0,
                                 minWidth: size.width * 0.9,
@@ -182,11 +178,7 @@ class StartPageState extends State<MainPage> {
                         ),
                       ),
                     ),
-                    // Align(
-                    //     alignment: Alignment.topRight,
-                    //     child: Image.asset( 'assets/Images/shape-svg.png'),
-                    //
-                    // ),
+
                   ]),
                 ],
               )
@@ -242,11 +234,9 @@ class StartPageState extends State<MainPage> {
         Navigator.push<dynamic>(
           context,
           MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) =>
-                LinkHistory(),
+            builder: (BuildContext context) => LinkHistory(),
           ),
         );
-
       }
     });
 

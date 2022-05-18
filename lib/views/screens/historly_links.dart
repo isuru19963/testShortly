@@ -26,13 +26,7 @@ class _LazyLoadingWithBlocState extends State<LinkHistory> {
     //initial data load
     dataBloc.add(GetShortenLinkList());
 
-    //triggers when scrolling reached to bottom
-    // _scrollController.addListener(() {
-    //   if (_scrollController.position.pixels ==
-    //       _scrollController.position.maxScrollExtent) {
-    //     _getMoreData();
-    //   }
-    // });
+
   }
 
   void _getMoreData() {
@@ -79,8 +73,7 @@ class _LazyLoadingWithBlocState extends State<LinkHistory> {
                     child: Column(
                       children: <Widget>[
                         Row(
-                          mainAxisAlignment: MainAxisAlignment
-                              .spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
                               width: 10,
@@ -100,15 +93,15 @@ class _LazyLoadingWithBlocState extends State<LinkHistory> {
                             ),
                             SizedBox(
                               child: IconButton(
-                                  onPressed: () async{
+                                onPressed: () async {
                                   await remove(state.myList[i].id);
                                   (context as Element).reassemble();
-                                  },
-                                  icon:  SvgPicture.asset(
-                                    'assets/Images/del.svg',
-                                  ),),
+                                },
+                                icon: SvgPicture.asset(
+                                  'assets/Images/del.svg',
+                                ),
+                              ),
                             ),
-
                             SizedBox(
                               width: 10,
                             ),
@@ -206,29 +199,26 @@ class _LazyLoadingWithBlocState extends State<LinkHistory> {
   }
 
   remove(id) async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String? shortenList = prefs.getString('shortenList');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? shortenList = prefs.getString('shortenList');
 
-  final List<ShortenLinkModel> linkHistory = ShortenLinkModel.decode(shortenList!);
+    final List<ShortenLinkModel> linkHistory =
+        ShortenLinkModel.decode(shortenList!);
 
+    // loadMoreCount = initLoadCount;
+    linkHistory.removeWhere((item) => item.id == id);
 
-  // loadMoreCount = initLoadCount;
-  linkHistory.removeWhere((item) => item.id == id);
+    // Encode and store data in SharedPreferences
 
-
-  // Encode and store data in SharedPreferences
-
-  final String encodedData = json.encode(
-    linkHistory
-        .map<Map<String, dynamic>>((link) => ShortenLinkModel.toMap(link))
-        .toList(),
-  );
-print('done');
-  await prefs.setString('shortenList', encodedData);
-  setState(() {
-
-  });
-  (context as Element).reassemble();
-  dataBloc.add(GetShortenLinkList());
-}
+    final String encodedData = json.encode(
+      linkHistory
+          .map<Map<String, dynamic>>((link) => ShortenLinkModel.toMap(link))
+          .toList(),
+    );
+    print('done');
+    await prefs.setString('shortenList', encodedData);
+    setState(() {});
+    (context as Element).reassemble();
+    dataBloc.add(GetShortenLinkList());
+  }
 }

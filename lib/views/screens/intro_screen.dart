@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'main_screen.dart';
 
-
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
 
@@ -50,64 +49,60 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onPageChanged: (value) => setState(() => _currentPage = value),
                 itemCount: contents.length,
                 itemBuilder: (context, i) {
-                  return Stack(
-                      children: [
-
-                        Container(
-                          margin: EdgeInsets.only(top: 50,left: 20,right: 20),
-                          height: 300,decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16.0),
-
+                  return Stack(children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 50, left: 20, right: 20),
+                      height: 300,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Column(
+                          children: [
+                            // Image.asset(
+                            //   contents[i].image,
+                            //   height: size.height/100 * 35,
+                            // ),
+                            SizedBox(
+                              height: (size.height >= 840) ? 60 : 30,
+                            ),
+                            Text(
+                              contents[i].title,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w700,
+                                fontSize: (size.width <= 550) ? 30 : 35,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              contents[i].desc,
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                                fontSize: (size.width <= 550) ? 17 : 25,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          ],
                         ),
-                        child:Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Column(
-                      children: [
-                        // Image.asset(
-                        //   contents[i].image,
-                        //   height: size.height/100 * 35,
-                        // ),
-                        SizedBox(
-                          height: (size.height >= 840) ? 60 : 30,
-                        ),
-                        Text(
-                          contents[i].title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w700,
-                            fontSize: (size.width <= 550) ? 30 : 35,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          contents[i].desc,
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w500,
-                            fontSize: (size.width <= 550) ? 17 : 25,
-                          ),
-                          textAlign: TextAlign.center,
-                        )
-                      ],
+                      ),
                     ),
-                  ),),
-                        Align(
-                            alignment: Alignment.topCenter,
-                            child: SizedBox(
-                              child: CircleAvatar(
-                                radius: 45.0,
-                                backgroundColor: Color(0xff3B3054),
-                                child:Image.asset( contents[i].image),
-                              ),)
-                        ),
-                      ]
-                  );
-
-
+                    Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          child: CircleAvatar(
+                            radius: 45.0,
+                            backgroundColor: Color(0xff3B3054),
+                            child: Image.asset(contents[i].image),
+                          ),
+                        )),
+                  ]);
                 },
               ),
             ),
@@ -120,86 +115,85 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
                       contents.length,
-                          (int index) => _buildDots(index: index),
+                      (int index) => _buildDots(index: index),
                     ),
                   ),
                   _currentPage + 1 == contents.length
                       ? Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: ElevatedButton(
-                      onPressed: () {
-
-                        Navigator.push<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) =>
-                             MainPage(),
+                          padding: const EdgeInsets.all(30),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push<dynamic>(
+                                context,
+                                MaterialPageRoute<dynamic>(
+                                  builder: (BuildContext context) => MainPage(),
+                                ),
+                              );
+                            },
+                            child: Text("START"),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.black,
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              padding: (size.width <= 550)
+                                  ? EdgeInsets.symmetric(
+                                      horizontal: 100, vertical: 20)
+                                  : EdgeInsets.symmetric(
+                                      horizontal: size.width * 0.2,
+                                      vertical: 25),
+                              textStyle: TextStyle(
+                                  fontSize: (size.width <= 550) ? 13 : 17),
+                            ),
                           ),
-                        );
-                      },
-                      child: Text("START"),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        padding: (size.width <= 550)
-                            ? EdgeInsets.symmetric(
-                            horizontal: 100, vertical: 20)
-                            : EdgeInsets.symmetric(
-                            horizontal: size.width * 0.2, vertical: 25),
-                        textStyle:
-                        TextStyle(fontSize: (size.width <= 550) ? 13 : 17),
-                      ),
-                    ),
-                  )
+                        )
                       : Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            _controller.jumpToPage(2);
-                          },
-                          child: Text(
-                            "SKIP",
-                            style: TextStyle(color: Colors.black),
+                          padding: const EdgeInsets.all(30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  _controller.jumpToPage(2);
+                                },
+                                child: Text(
+                                  "SKIP",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                style: TextButton.styleFrom(
+                                  elevation: 0,
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: (size.width <= 550) ? 13 : 17,
+                                  ),
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _controller.nextPage(
+                                    duration: Duration(milliseconds: 200),
+                                    curve: Curves.easeIn,
+                                  );
+                                },
+                                child: Text("NEXT"),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.black,
+                                  shape: new RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  elevation: 0,
+                                  padding: (size.width <= 550)
+                                      ? EdgeInsets.symmetric(
+                                          horizontal: 30, vertical: 20)
+                                      : EdgeInsets.symmetric(
+                                          horizontal: 30, vertical: 25),
+                                  textStyle: TextStyle(
+                                      fontSize: (size.width <= 550) ? 13 : 17),
+                                ),
+                              ),
+                            ],
                           ),
-                          style: TextButton.styleFrom(
-                            elevation: 0,
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: (size.width <= 550) ? 13 : 17,
-                            ),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            _controller.nextPage(
-                              duration: Duration(milliseconds: 200),
-                              curve: Curves.easeIn,
-                            );
-                          },
-                          child: Text("NEXT"),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.black,
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            elevation: 0,
-                            padding: (size.width <= 550)
-                                ? EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 20)
-                                : EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 25),
-                            textStyle: TextStyle(
-                                fontSize: (size.width <= 550) ? 13 : 17),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                        )
                 ],
               ),
             ),
@@ -209,8 +203,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 }
-
-
 
 class OnboardingContents {
   final String title;
@@ -225,18 +217,19 @@ List<OnboardingContents> contents = [
   OnboardingContents(
     title: "Brand Recognition",
     image: "assets/Images/diagram.png",
-    desc: "Boost your brand recognition with each click. Generic links don't mean a thing. Branded links help instill confidence in your content .",
+    desc:
+        "Boost your brand recognition with each click. Generic links don't mean a thing. Branded links help instill confidence in your content .",
   ),
   OnboardingContents(
     title: "Detailed Records",
     image: "assets/Images/Gauge.png",
     desc:
-    "Gain insight into who clicking your links. Knowing when and where place engage with your content helps inform better decision ",
+        "Gain insight into who clicking your links. Knowing when and where place engage with your content helps inform better decision ",
   ),
   OnboardingContents(
     title: "Fully Customizable",
     image: "assets/Images/tools.png",
     desc:
-    "Improve brand awareness and content discoverability through customizable links, supercharging audience engagement.",
+        "Improve brand awareness and content discoverability through customizable links, supercharging audience engagement.",
   ),
 ];

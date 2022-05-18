@@ -43,7 +43,6 @@ class StartPageState extends State<StartPage> {
                   ),
                   SvgPicture.asset(
                     'assets/Images/illustration.svg',
-
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment
@@ -96,7 +95,10 @@ class StartPageState extends State<StartPage> {
                       height: 60.0,
                       child: const Text(
                         "START",
-                        style: TextStyle(color: Colors.white, fontSize: 24.0,fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),

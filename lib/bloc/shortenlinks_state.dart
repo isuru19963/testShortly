@@ -12,10 +12,7 @@ class ShortenlinksInitial extends ShortenlinksState {}
 
 class ShortenlinksLoading extends ShortenlinksState {}
 
-// class ShortenlinksLoaded extends ShortenlinksState {
-//   final ShortenLinkModel linkModel;
-//   const ShortenlinksLoaded(this.linkModel);
-// }
+
 
 class DataLoading extends ShortenlinksState {}
 
